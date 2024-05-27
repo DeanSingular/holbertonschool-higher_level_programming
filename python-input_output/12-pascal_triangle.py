@@ -1,25 +1,21 @@
 #!/usr/bin/python3
+"""create and return a list of lists of int represent Pascal triangle of n"""
+
+
 def pascal_triangle(n):
+    """create a pascal_triangle in list"""
+
     if n <= 0:
         return []
-
-    limit = n - 1
-    triangle = [[1]]
-
-    for i in range(limit):
-        row = []
-        row.append(1)
-
-        if len(triangle[i]) > 1:
-            prev_row_len = len(triangle[i]) - 1
-            nxt = 1
-
-            for j in range(prev_row_len):
-                suma = triangle[i][j] + triangle[i][nxt]
-                row.append(suma)
-                nxt += 1
-
-        row.append(1)
-        triangle.append(row)
-
-    return triangle
+    left_side = [1]
+    right_side = [1]
+    new_item = []
+    pascal_list = [[1]]
+    for i in range(1, n):
+        left_side.insert(0, 0)
+        right_side.append(0)
+        new_item = [ll + rr for ll, rr in zip(left_side, right_side)]
+        pascal_list.append(new_item)
+        left_side = new_item.copy()
+        right_side = new_item.copy()
+    return pascal_list

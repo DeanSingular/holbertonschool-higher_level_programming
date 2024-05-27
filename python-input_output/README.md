@@ -1,91 +1,203 @@
-Python - Input/Output
-In this project, I practiced file handling in Python. I used the builtin with, open, and read functions with the json module to read and write files and serialize and deserialize objects with JSON.
+Input/Output
+Learning Objectives
+How to open a file
+How to write text in a file
+How to read the full content of a file
+How to read a file line by line
+How to move the cursor in a file
+How to make sure a file is closed after using it
+What is and how to use the with statement
+What is JSON
+What is serialization
+What is deserialization
+How to convert a Python data structure to a JSON string
+How to convert a JSON string to a Python data structure
+Tasks
+Read file
+Write a function that reads a text file (UTF8) and prints it to stdout:
 
-Tests ✔️
-tests: Folder of test files. Provided by Holberton School.
-Function Prototypes 💾
-Prototypes for functions written in this project:
+Prototype: def read_file(filename=""):
+You must use the with statement
+You don’t need to manage file permission or file doesn't exist exceptions.
+You are not allowed to import any module
+Solution: 0-read_file.py
 
-File	Prototype
-0-read_file.py	def read_file(filename=""):
-1-number_of_lines.py	def number_of_lines(filename=""):
-2-read_lines.py	def read_lines(filename="", nb_lines=0):
-3-write_file.py	def write_file(filename="", text=""):
-4-append_write.py	def append_write(filename="", text=""):
-5-to_json_string.py	def to_json_string(my_obj):
-6-from_json_string.py	def from_json_string(my_str):
-7-save_to_json_file.py	def save_to_json_file(my_obj, filename):
-8-load_from_json_file.py	def load_from_json_file(filename):
-10-class_to_json.py	def class_to_json(obj):
-14-pascal_triangle.py	def pascal_triangle(n):
-100-append_after.py	def append_after(filename="", search_string="", new_string=""):
-Tasks 📃
-0. Read file
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 0-main.py
+#!/usr/bin/python3
+read_file = __import__('0-read_file').read_file
 
-0-read_file.py: Python function that prints the contents of a UTF8 text file to standard output.
-1. Number of lines
+read_file("my_file_0.txt")
 
-1-number_of_lines.py: Python function that returns the number of lines contained in a text file.
-2. Read n lines
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat my_file_0.txt
+Holberton School offers a truly innovative approach to education:
+focus on building reliable applications and scalable systems, take on real-world challenges, collaborate with your peers. 
 
-2-read_lines.py: Python function that prints n lines of a UTF8 text file to standard output.
-3. Write to a file
+A school every software engineer would have dreamt of!
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./0-main.py
+Holberton School offers a truly innovative approach to education:
+focus on building reliable applications and scalable systems, take on real-world challenges, collaborate with your peers. 
 
-3-write_file.py: Python function that writes a string to a UTF8 text file and returns the number of characters written.
-4. Append to a file
+A school every software engineer would have dreamt of!
+$ amonkeyprogrammer@ubuntu:~/0x0B$
+Number of lines
+Write a function that returns the number of lines of a text file:
 
-4-append_write.py: Python function that appends a string to the end of a UTF8 text file and returns the number of characters appended.
-5. To JSON string
+Prototype: def number_of_lines(filename=""):
+You must use the with statement
+You don’t need to manage file permission or file doesn't exist exceptions.
+You are not allowed to import any module
+Solution: 1-number_of_lines.py
 
-5-to_json_string.py: Python function that returns the JSON string representation of an object.
-6. From JSON string to Object
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 1-main.py
+#!/usr/bin/python3
+number_of_lines = __import__('1-number_of_lines').number_of_lines
 
-6-from_json_string.py: Python function that returns the Python object represented by a JSON string.
-7. Save Object to a file
+filename = "my_file_0.txt"
+nb_lines = number_of_lines(filename)
+print("{} has {:d} lines".format(filename, nb_lines))
 
-7-save_to_json_file.py: Python function that writes an object to a text file using JSON representation.
-8. Create object from a JSON file
+$ amonkeyprogrammer@ubuntu:~/0x0B$ wc -l my_file_0.txt
+4 my_file_0.txt
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./1-main.py
+my_file_0.txt has 4 lines
+$ amonkeyprogrammer@ubuntu:~/0x0B$
+Read n lines
+Write a function that reads n lines of a text file (UTF8) and prints it to stdout:
 
-8-load_from_json_file.py: Python function that creates an object from a .json file.
-9. Load, add, save
+Prototype: def read_lines(filename="", nb_lines=0):
+Read the entire file if nb_lines is lower or equal to 0 OR greater or equal to the total number of lines of the file
+You must use the with statement
+You don’t need to manage file permission or file doesn't exist exceptions.
+You are not allowed to import any module
+Solution: 2-read_lines.py
 
-9-add_item.py: Python script that stores all command line arguments to a Python list saved in the file add_item.json.
-10. Class to JSON
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 2-main.py
+#!/usr/bin/python3
+read_lines = __import__('2-read_lines').read_lines
 
-10-class_to_json.py: Python function that returns the dictionary description for simple Python data structures (lists, dictionaries, strings, integers and booleans).
-11. Student to JSON
+print("1 line:")
+read_lines("my_file_0.txt", 1)
+print("--")
+print("3 lines:")
+read_lines("my_file_0.txt", 3)
+print("--")
+print("Full content:")
+read_lines("my_file_0.txt")
 
-11-student.py: Python class Student that defines a student. Includes:
-Public instance attributes first_name, last_name, and age.
-Instantiation with first_name, last_name, and age: def __init__(self, first_name, last_name, age):.
-Public method def to_json(self): that returns the dictionary representation of a Student instance.
-12. Student to JSON with filter
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat my_file_0.txt
+Holberton School offers a truly innovative approach to education:
+focus on building reliable applications and scalable systems, take on real-world challenges, collaborate with your peers. 
 
-12-student.py: Python class Student that defines a student. Builds on 11-student.py with:
-Public method def to_json(self, attrs=None): that returns the dictionary representation of a Student instance.
-If attrs is a list of strings, only the attributes listed are represented in the dictionary.
-13. Student to disk and reload
+A school every software engineer would have dreamt of!
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./2-main.py
+1 line:
+Holberton School offers a truly innovative approach to education:
+--
+3 lines:
+Holberton School offers a truly innovative approach to education:
+focus on building reliable applications and scalable systems, take on real-world challenges, collaborate with your peers. 
 
-13-student.py: Python class Student that defines a student. Builds on 12-student.py with:
-Public method def reload_from_json(self, json): that replaces all attributes of the Student instance using the key/value pairs listed in json.
-The method assumes json is a dictionary containing attributes with name/value corresponding to key/value.
-14. Pascal's Triangle
+--
+Full content:
+Holberton School offers a truly innovative approach to education:
+focus on building reliable applications and scalable systems, take on real-world challenges, collaborate with your peers. 
 
-14-pascal_triangle.py: Python function that returns a list of lists of integers representing Pascal's triangle of size n.
-Assumes the size parameter n is an integer.
-If n is less than or equal to 0, returns an empty list.
-15. Search and update
+A school every software engineer would have dreamt of!
+$ amonkeyprogrammer@ubuntu:~/0x0B$
+Write to a file
+Write a function that writes a string to a text file (UTF8) and returns the number of characters written:
 
-100-append_after.py: Python function that inserts a line of text to a file after each line containing a specified string.
-16. Log parsing
+Prototype: def write_file(filename="", text=""):
+You must use the with statement
+You don’t need to manage file permission exceptions.
+Your function should create the file if doesn’t exist.
+Your function should overwrite the content of the file if it already exists.
+You are not allowed to import any module
+Solution: 3-write_file.py
 
-101-stats.py: Python script that reads lines from standard input. After every 10 lines or the input of a keyboard interruption (CTRL + C), computes the following metrics:
-Total file size up that point: File size: <total size>
-Status code of each read line, printed in ascending order: <status code>: <number>
-Input format: <IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
-17. Hack the VM
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 3-main.py
+#!/usr/bin/python3
+write_file = __import__('3-write_file').write_file
 
-read_write_heap.py: Python script that finds and replaces a string in the heap of a running process.
-Usage: read_write_heap.py pid search_string replace_string where pid is the process ID of the running process and strings are represented in ASCII.
-Only looks in the heap of the process.
-On a usage error, prints an error message to stdout and exits with the status code 1.
+nb_characters = write_file("my_first_file.txt", "Holberton School is so cool!\n")
+print(nb_characters)
+
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./3-main.py
+29
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat my_first_file.txt
+Holberton School is so cool!
+$ amonkeyprogrammer@ubuntu:~/0x0B$
+Append to a file
+Write a function that appends a string at the end of a text file (UTF8) and returns the number of characters added:
+
+Prototype: def append_write(filename="", text=""):
+If the file doesn’t exist, it should be created
+You must use the with statement
+You don’t need to manage file permission or file doesn't exist exceptions.
+You are not allowed to import any module
+Solution: 4-append_write.py
+
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 4-main.py
+#!/usr/bin/python3
+append_write = __import__('4-append_write').append_write
+
+nb_characters_added = append_write("file_append.txt", "Holberton School is so cool!\n")
+print(nb_characters_added)
+
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat file_append.txt
+cat: file_append.txt: No such file or directory
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./4-main.py
+29
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat file_append.txt
+Holberton School is so cool!
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./4-main.py
+29
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat file_append.txt
+Holberton School is so cool!
+Holberton School is so cool!
+$ amonkeyprogrammer@ubuntu:~/0x0B$
+To JSON string
+Write a function that returns the JSON representation of an object (string):
+
+Prototype: def to_json_string(my_obj):
+You don’t need to manage exceptions if the object can’t be serialized.
+Solution: 5-to_json_string.py
+
+$ amonkeyprogrammer@ubuntu:~/0x0B$ cat 5-main.py
+#!/usr/bin/python3
+to_json_string = __import__('5-to_json_string').to_json_string
+
+my_list = [1, 2, 3]
+s_my_list = to_json_string(my_list)
+print(s_my_list)
+print(type(s_my_list))
+
+my_dict = { 
+    'id': 12,
+    'name': "John",
+    'places': [ "San Francisco", "Tokyo" ],
+    'is_active': True,
+    'info': {
+        'age': 36,
+        'average': 3.14
+    }
+}
+s_my_dict = to_json_string(my_dict)
+print(s_my_dict)
+print(type(s_my_dict))
+
+try:
+    my_set = { 132, 3 }
+    s_my_set = to_json_string(my_set)
+    print(s_my_set)
+    print(type(s_my_set))
+except Exception as e:
+    print("[{}] {}".format(e.__class__.__name__, e))
+
+$ amonkeyprogrammer@ubuntu:~/0x0B$ ./5-main.py
+[1, 2, 3]
+<class 'str'>
+{"id": 12, "is_active": true, "name": "John", "info": {"average": 3.14, "age": 36}, "places": ["San Francisco", "Tokyo"]}
+<class 'str'>
+[TypeError] {3, 132} is not JSON serializable
+$ amonkeyprogrammer@ubuntu:~/0x0B$
